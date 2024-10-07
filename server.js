@@ -19,7 +19,7 @@ const chainIdRoutes = require('./routes/chainIDRoutes');
 const authRoutes = require('./routes/authRoutes');
 
 app.use('/api', chainIdRoutes);
-app.use('/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);

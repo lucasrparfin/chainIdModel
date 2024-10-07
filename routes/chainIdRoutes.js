@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const chainIDController = require('../controllers/chainIDController');
+const chainIDController = require('../controllers/chainIDController'); 
 const verifyToken = require('../middlewares/verifyToken');
 
 // Rota para validar o ChainID
