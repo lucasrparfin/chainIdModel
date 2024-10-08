@@ -20,6 +20,4 @@ const ChainID = sequelize.define('ChainID', {
   tableName: 'chain_ids',
 });
 
-ChainID.belongsTo(User, { foreignKey: 'userId' });
-
 module.exports = ChainID;

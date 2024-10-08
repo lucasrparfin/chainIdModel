@@ -26,3 +26,29 @@ exports.login = async (req, res) => {
     return res.status(500).json({ message: 'Error on the server.', error });
   }
 };
+
+exports.registerUser = async (req, res) => {
+  const {username, password} = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Username and password are required.' });
+  }
+  
+  try {
+    const user = await User.findOne({ where: { username } });
+    if (user) {
+      return res.status(400).json({ message: 'This user name is unavailable' });
+    }
+
+    const hashedPassword = bcrypt.hashSync(password, 8);
+
+    const newUser = await User.create({
+      username: username,
+      password: hashedPassword,
+    });
+
+    return res.status(201).json({ message: 'User created successfully.', user: newUser });
+  } catch (error) {
+    return res.status(500).json({ message: 'Error creating user.', error });
+  }
+};

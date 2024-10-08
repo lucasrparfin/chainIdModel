@@ -2,7 +2,6 @@ const ChainID = require('../models/chainID');
 const User = require('../models/user');
 const { generateAllPermutations, getRegisteredChainIds, filterValidPermutations } = require('../utils/chainIdUtils');
 
-// Controlador para validar ChainID
 exports.validateChainID = async (req, res) => {
   const { chainId } = req.params;
 
