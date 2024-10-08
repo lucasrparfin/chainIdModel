@@ -23,15 +23,15 @@ exports.validateChainID = async (req, res) => {
       if (suggestions.length === 0) {
         return res.status(409).json({
           valid: false, 
-          message: 'ChainID already exists, and no valid suggestions are available.',
+          message: 'The ChainID already exists, and no valid suggestions are available.',
           suggestions: []
         });
       }
 
       return res.status(409).json({
         valid: false, 
-        message: 'ChainID already exists in the Rayls network. Try the one below', 
-        suggestions: [suggestions[0]]
+        message: 'The ChainID already exists in the Rayls network. If you wish, I can use one from below', 
+        suggestions: suggestions.slice(0, 3)
       });
     } else {
       return res.status(200).json({ valid: true, message: 'ChainID is available for use.' });
@@ -64,15 +64,15 @@ exports.registerChainID = async (req, res) => {
       if (suggestions.length === 0) {
         return res.status(409).json({
           valid: false, 
-          message: 'ChainID already exists, and no valid suggestions are available.',
+          message: 'The ChainID already exists, and no valid suggestions are available.',
           suggestions: []
         });
       }
 
       return res.status(409).json({
         valid: false,
-        message: 'ChainID already exists in the Rayls network. Try the one below',
-        suggestions: suggestions.length > 0 ? [suggestions[0]] : []
+        message: 'The ChainID already exists in the Rayls network. If you wish, I can use one from below',
+        suggestions: suggestions.slice(0, 3)
       });
     }
 
