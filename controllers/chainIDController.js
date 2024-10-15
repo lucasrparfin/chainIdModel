@@ -41,7 +41,6 @@ exports.validateChainID = async (req, res) => {
   }
 };
 
-// Controlador para registrar ChainID
 exports.registerChainID = async (req, res) => {
   const { chainId } = req.body;
   const userId = req.userId;
@@ -77,7 +76,7 @@ exports.registerChainID = async (req, res) => {
     }
 
     const newChainId = await ChainID.create({ chain_id: Number(chainId), userId });
-    return res.status(201).json({ message: 'ChainID registered successfully.', newChainId });
+    return res.status(201).json({ message: `ChainID ${newChainId.chain_id} registered successfully.`, newChainId });
   } catch (error) {
     return res.status(500).json({ message: 'Error registering ChainID.', error });
   }
@@ -99,3 +98,22 @@ exports.getAllChainIDs = async (req, res) => {
   }
 };
 
+exports.deleteChainID = async (req, res) => {
+  const { chainId } = req.params;
+
+  if (!chainId || isNaN(Number(chainId))) {
+    return res.status(400).json({ message: 'A valid integer ChainID is required.' });
+  }
+
+  try {
+    const deleted = await ChainID.destroy({ where: { chain_id: Number(chainId) } });
+
+    if (deleted) {
+      return res.status(200).json({ message: `ChainID ${chainId} deleted successfully.` });
+    } else {
+      return res.status(404).json({ message: 'ChainID not found.' });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: 'Error deleting ChainID.', error });
+  }
+};

@@ -1,49 +1,52 @@
 'use strict';
 
-const bcrypt = require('bcryptjs'); // Para criptografar a senha do usuário
+const bcrypt = require('bcryptjs');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    // Cria a tabela de usuários
     await queryInterface.createTable('users', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       username: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+      },
+      role: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: 'participant',
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
 
-    // Insere o primeiro usuário no banco
     const passwordHash = bcrypt.hashSync('admin', 8);
 
     await queryInterface.bulkInsert('users', [{
       username: 'admin',
       password: passwordHash,
+      role: 'admin',
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     }], {});
   },
 
   down: async (queryInterface, Sequelize) => {
-    // Exclui a tabela de usuários
     await queryInterface.dropTable('users');
-  }
+  },
 };

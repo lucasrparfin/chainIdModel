@@ -4,7 +4,7 @@ const User = require('./user');
 
 const ChainID = sequelize.define('ChainID', {
   chain_id: {
-    type: DataTypes.INTEGER, // Tipo inteiro
+    type: DataTypes.INTEGER,
     allowNull: false,
     unique: true
   },

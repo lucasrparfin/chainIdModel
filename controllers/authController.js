@@ -17,9 +17,9 @@ exports.login = async (req, res) => {
       return res.status(401).json({ auth: false, token: null, message: 'Invalid user or password.' });
     }
 
-    const token = jwt.sign({ id: user.id }, config.secret, {
+    const token = jwt.sign({ id: user.id, username: user.username, role: user.role }, config.secret, {
       expiresIn: 86400, // Expira em 24 horas
-    });
+    });    
 
     return res.status(200).json({ auth: true, token });
   } catch (error) {
@@ -28,16 +28,16 @@ exports.login = async (req, res) => {
 };
 
 exports.registerUser = async (req, res) => {
-  const {username, password} = req.body;
+  const { username, password, role } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({ message: 'Username and password are required.' });
+  if (!username || !password || !role) {
+    return res.status(400).json({ message: 'Username, password, and role are required.' });
   }
-  
+
   try {
     const user = await User.findOne({ where: { username } });
     if (user) {
-      return res.status(400).json({ message: 'This user name is unavailable' });
+      return res.status(400).json({ message: 'This username is unavailable.' });
     }
 
     const hashedPassword = bcrypt.hashSync(password, 8);
@@ -45,6 +45,7 @@ exports.registerUser = async (req, res) => {
     const newUser = await User.create({
       username: username,
       password: hashedPassword,
+      role: role,
     });
 
     return res.status(201).json({ message: 'User created successfully.', user: newUser });
