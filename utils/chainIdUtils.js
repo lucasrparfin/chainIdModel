@@ -1,4 +1,4 @@
-const ChainID = require('../models/chainID');
+const ChainID = require('../models/privacyLedger');
 
 // Função para gerar todas as permutações possíveis de um conjunto de números
 const generateAllPermutations = (chainId) => {

@@ -1,14 +1,5 @@
 const User = require('./user');
-const ChainID = require('./chainID');
+const PrivacyLedger = require('./privacyLedger');
 
-User.hasMany(ChainID, {
-  foreignKey: 'userId',
-  as: 'chainIds'
-});
-
-ChainID.belongsTo(User, {
-  foreignKey: 'userId',
-  as: 'user'
-});
-
-module.exports = { User, ChainID };
+User.hasMany(PrivacyLedger, { foreignKey: 'userId' });
+PrivacyLedger.belongsTo(User, { foreignKey: 'userId' });
